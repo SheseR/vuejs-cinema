@@ -1,7 +1,8 @@
 import Vue from 'vue';
 import './style.scss';
-import genres from './util/genres';
 
+import MovieList from './components/MovieList.vue' ;
+import MovieFilter from './components/MovieFilter.vue';
 
 new Vue({
     el: "#app",
@@ -19,61 +20,10 @@ new Vue({
                   this[category].splice(index, 1);
               }
           }
-        console.log('parent ' + category + " " + title + " " + checked);
       }
     },
     components: {
-        'movie-list': {
-            template: `<div id="movie-list">
-                            <div v-for="movie in movies" class="movie">{{ movie.title }}</div>
-                        </div>`,
-            data() {
-                return {
-                    movies: [
-                        { title: 'pup fiction' },
-                        { title: 'One home' },
-                        { title: 'Terminator' },
-                    ]
-                }
-            }
-        },
-        'movie-filter':{
-            data() {
-                return {
-                    genres
-                }
-            },
-            template: `<div id="movie-filter">
-                            <h2>Result of filter</h2>
-                            <div class="filter-group">
-                                <check-filter v-for="genre in genres" v-bind:title="genre" v-on:check-filter="checkFilter"></check-filter>
-                            </div>                           
-                        </div>`,
-            methods: {
-              checkFilter(category, title, checked) {
-                  this.$emit('check-filter', category, title, checked);
-              }
-            },
-            components: {
-                'check-filter' : {
-                    data() {
-                        return {
-                            checked: false
-                        }
-                    },
-                    template: `<div v-bind:class="{'check-filter': true, active: checked }"  v-on:click="checkFilter">
-                                    <span class="checkbox" ></span>
-                                    <span class="check-filter-title">{{ title }}</span>
-                                </div>`,
-                    props: [ 'title' ],
-                    methods: {
-                        checkFilter() {
-                            this.checked = !this.checked;
-                            this.$emit('check-filter', 'genre', this.title, this.checked);
-                        }
-                    }
-                }
-            }
-        }
+        MovieList,
+        MovieFilter,
     }
 });
